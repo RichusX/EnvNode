@@ -14,7 +14,8 @@ const char* mqtt_server = "";
 const char* mqtt_username = "";
 const char* mqtt_password = "";
 const char* mqtt_topic = "";
-const char* ap_name = "EnvNode"
+const char* ap_name = "EnvNode";
+const int message_timeout = 30000; // How often to publish readings to MQTT in miliseconds (1s = 1000ms)
 
 uint8_t DHTPin = D1; // DHT Sensor
 DHT dht(DHTPin, DHTTYPE); // Initialize DHT sensor.
@@ -92,7 +93,7 @@ void loop() {
   
 
   long now = millis();
-  if (now - lastMsg > 30000) {
+  if (now - lastMsg > message_timeout) {
     lastMsg = now;
     publishString = "";
     memset(strCopy, 0, sizeof(strCopy));
